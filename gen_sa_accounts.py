@@ -112,7 +112,11 @@ def _batch_keys_resp(id,resp,exception):
 # Create Keys
 def _create_sa_keys(iam,projects,path):
     global current_key_dump
+    # print("Enter Project Name:")
+    # prrr = input("Project name = ")
+    print("\n\nproject name = ", projects, "\n\n")    
     for i in projects:
+        print("\nproject name = ", i, '\n')     
         current_key_dump = []
         print('Downloading keys from %s' % i)
         while current_key_dump is None or len(current_key_dump) != 100:
@@ -230,7 +234,10 @@ def serviceaccountfactory(
         elif create_sas == '*':
             stc =  _get_projects(cloud)
         for i in stc:
-            _create_remaining_accounts(iam,i)
+            try:
+                _create_remaining_accounts(iam,i)
+            except:
+                pass
     if download_keys:
         try:
             os.mkdir(path)
@@ -245,7 +252,10 @@ def serviceaccountfactory(
             std = selected_projects
         elif download_keys == '*':
             std = _get_projects(cloud)
-        _create_sa_keys(iam,std,path)
+        try:
+            _create_sa_keys(iam,std,path)
+        except:
+            pass
     if delete_sas:
         std = []
         std.append(delete_sas)
